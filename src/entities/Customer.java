@@ -7,8 +7,7 @@ import java.util.Objects;
 
 public class Customer {
 	
-	
-	private Long id;
+	private Integer id;
 	private String name;
 	private String email;
 	
@@ -17,18 +16,18 @@ public class Customer {
 	public Customer() {
 	}
 
-	public Customer(Long id, String name, String email) {
+	public Customer(Integer id, String name, String email) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -71,6 +70,6 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Cliente: |" + id + "Nome: |" + name + "Email: " + email;
-	}	
+		return "Id do Cliente: " + id + " | " + "Nome: " + name + " | " + "Email: " + email;
+	}
 }	
