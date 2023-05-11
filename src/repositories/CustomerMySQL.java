@@ -85,11 +85,24 @@ public class CustomerMySQL implements CustomerRepository {
 	}
 
 	@Override
-	public void update(Customer cuctomer) {
-	
-		
+	public void update(Customer customer) {
+		PreparedStatement st = null;
+		try {
+			conn = DB.getConnection();
+			st = conn.prepareStatement("UPDATE cliente SET nome = ?, email = ? WHERE id = ?");
+			st.setString(1, customer.getName());
+			st.setString(2, customer.getEmail());
+			st.setInt(3, customer.getId());
+			st.executeUpdate();
+			
+			System.out.println("Cliente atualizado com sucesso!");
+		} catch (SQLException e) {
+			System.out.println("Erro ao atualizar cliente! " + e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
 	}
-
+	
 	@Override
 	public void deleteById(Integer id) {
 		
