@@ -105,9 +105,23 @@ public class CustomerMySQL implements CustomerRepository {
 	
 	@Override
 	public void deleteById(Integer id) {
-		
-	}
+		PreparedStatement st = null;
+		try {
+			conn = DB.getConnection();
+			st = conn.prepareStatement("DELETE FROM cliente WHERE id = ?");
 
+			st.setInt(1, id);
+			st.executeUpdate();
+		}
+
+		catch (SQLException e) {
+			System.out.println("Erro ao deletar cliente: " + e.getMessage());
+
+		} finally {
+			DB.closeStatement(st);
+		}
+
+	}
 	@Override
 	public List<Customer> findAll() {
 		return null;
