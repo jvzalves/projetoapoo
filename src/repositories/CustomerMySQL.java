@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.Customer;
@@ -122,9 +123,32 @@ public class CustomerMySQL implements CustomerRepository {
 		}
 
 	}
+
 	@Override
 	public List<Customer> findAll() {
-		return null;
-	}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		List<Customer> customerList = new ArrayList<>();
 
+		try {
+			conn = DB.getConnection();
+			st = conn.prepareStatement("SELECT id, nome, email FROM cliente");
+			rs = st.executeQuery();
+
+			while (rs.next()) {
+				Integer idCustomer = rs.getInt("id");
+				String nameCustomer = rs.getString("nome");
+				String emailCustomer = rs.getString("email");
+				Customer customer = new Customer(idCustomer, nameCustomer, emailCustomer);
+				customerList.add(customer);
+			}
+			return customerList;
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
 }
