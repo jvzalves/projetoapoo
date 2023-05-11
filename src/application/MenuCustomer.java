@@ -8,12 +8,26 @@ public class MenuCustomer {
 	public static void main(String[] args) {
 		CustomerMySQL customerMySQL = new CustomerMySQL(null);
 		Customer customer = customerMySQL.findById(3);
-		if (customer != null) {
+		Customer customer2 = new Customer(8, "João", "jv@gmail.com");
+		customerMySQL.insert(customer2);
+		System.out.println("Novo pedido: " + customer2.getId());
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*if (customer != null) {
 			System.out.println("Cliente encontrado:");
 			System.out.println(customer);
 		} else {
 			System.out.println("Cliente não encontrado!");
-		}
+		}*/
 		
 
 	}
