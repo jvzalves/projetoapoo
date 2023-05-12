@@ -3,7 +3,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+
 import entities.Product;
 import entities.Stock;
 import interfaces.StockRepository;
@@ -27,7 +29,7 @@ public class StockMySQL implements StockRepository {
 			  st = conn.prepareStatement("SELECT id, quantidade, produto_id " +
                       "FROM estoque " +
                       "WHERE id = ?");
-
+			  
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
@@ -53,9 +55,37 @@ public class StockMySQL implements StockRepository {
 
 	@Override
 	public void insert(Stock stock) {
+	    PreparedStatement st = null;
+	    ResultSet rs = null;
+	    try {
+	        conn = DB.getConnection();
+	        st = conn.prepareStatement("INSERT INTO estoque" +
+	                                   "(id, quantidade, produto_id)" +
+	                                   "VALUES (?, ?, ?)",
+	                                   Statement.RETURN_GENERATED_KEYS);
 
+	        st.setInt(1, stock.getId());
+	        st.setInt(2, stock.getQuantity());
+	        st.setInt(3, stock.getProductId());
+
+	        int rowsAffected = st.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            rs = st.getGeneratedKeys();
+	            if (rs.next()) {
+	                int id = rs.getInt(1);
+	                stock.setId(id);
+	            }
+	        }
+	        System.out.println("Estoque alterado com sucesso!");
+
+	    } catch (SQLException e) {
+	        System.out.println("Erro ao alterar estoque: " + e.getMessage());
+	    } finally {
+	        DB.closeResultSet(rs);
+	        DB.closeStatement(st);
+	    }
 	}
-
 	@Override
 	public void update(Stock stock) {
 	
