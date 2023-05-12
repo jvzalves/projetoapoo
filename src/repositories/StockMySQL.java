@@ -108,8 +108,21 @@ public class StockMySQL implements StockRepository {
 
 	@Override
 	public void deleteById(Integer id) {
-	
-		
+	    PreparedStatement st = null;
+	    try {
+	        conn = DB.getConnection();
+	        st = conn.prepareStatement("DELETE FROM estoque WHERE id = ?");
+
+	        st.setInt(1, id);
+	        st.executeUpdate();
+	        
+	        System.out.println("Id do produto no estoque deletado com sucesso!");
+	    } catch (SQLException e) {
+	        System.out.println("Erro ao deletar estoque: " + e.getMessage());
+
+	    } finally {
+	        DB.closeStatement(st);
+	    }
 	}
 	
 	@Override

@@ -19,10 +19,12 @@ public class MenuStock {
 	    } else {
 	        System.out.println("Estoque não encontrado.");
 	    }
+	
+	    System.out.println("------ Testando o deleteById ------");
+	    System.out.println("Entre com o id do estoque a ser deletado:");
+	    int id = sc.nextInt();
+	    stockMySQL.deleteById(id);
 	    sc.close();
-	    System.out.println("------Testando o update------");
-	    Stock stock = new Stock(9, 7, 3, null, null);
-	    stockMySQL.update(stock);
 	   
 	}
 
