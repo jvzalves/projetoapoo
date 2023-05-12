@@ -14,7 +14,15 @@ public class Customer {
 	private List <Product> products = new ArrayList<>();
 	
 	public Customer() {
+		
 	}
+	
+	public Customer(String name, String email) {
+		super();
+		this.name = name;
+		this.email = email;
+	}
+
 
 	public Customer(Integer id, String name, String email) {
 		super();
