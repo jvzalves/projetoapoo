@@ -4,9 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
-import entities.Product;
 import entities.Stock;
 import interfaces.StockRepository;
 import util.DB;
@@ -126,9 +126,31 @@ public class StockMySQL implements StockRepository {
 	}
 	
 	@Override
-	public List<Product> findAll() {
-	
-		return null;
+	public List<Stock> findAll() {
+	    PreparedStatement st = null;
+	    ResultSet rs = null;
+	    List<Stock> stockList = new ArrayList<>();
+
+	    try {
+	        conn = DB.getConnection();
+	        st = conn.prepareStatement("SELECT id, quantidade, produto_id FROM estoque");
+	        rs = st.executeQuery();
+
+	        while (rs.next()) {
+	            Integer id = rs.getInt("id");
+	            Integer quantity = rs.getInt("quantidade");
+	            Integer productId = rs.getInt("produto_id");
+	            Stock stock = new Stock(id, quantity, productId, null, null);
+	            stockList.add(stock);
+	        }
+	        return stockList;
+
+	    } catch (SQLException e) {
+	        throw new DbException(e.getMessage());
+	    } finally {
+	        DB.closeStatement(st);
+	        DB.closeResultSet(rs);
+	    }
 	}
 
 }
