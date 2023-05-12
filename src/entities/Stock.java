@@ -90,6 +90,6 @@ public class Stock {
 
 	@Override
 	public String toString() {
-		return "Id do produto no estoque: |" + id + "Quantidade do produto no estoque: |" + quantity + "Nome do produto:" + product.getName();
-	}	
+	    return "Id do produto no estoque: " + id + " | Quantidade do produto no estoque: " + quantity;
+	}
 }
