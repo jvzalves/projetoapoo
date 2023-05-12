@@ -1,24 +1,24 @@
 package entities;
 
+import java.text.NumberFormat;
 import java.util.Objects;
 
 
 public class Product {
-	
+	private static NumberFormat fmt = NumberFormat.getCurrencyInstance();
+	private static int count = 0;
 	private Integer id;
 	private String name;
 	private Integer quantity;
 	private Double price;
 	private Integer clientId;
-	
+
 	private Customer customer;
 	private Stock stock;
-	
+
 	public Product() {
+	this.id = 0;
 	}
-
-
-
 	public Product(Integer id, String name, Integer quantity, Double price, Integer clientId, Customer customer,
 			Stock stock) {
 		this.id = id;
@@ -30,6 +30,9 @@ public class Product {
 		this.stock = stock;
 	}
 
+	public static String doubletoSToString(Double value) {
+		return fmt.format(value);
+	}
 
 	public Integer getId() {
 		return id;
@@ -87,6 +90,22 @@ public class Product {
 		this.stock = stock;
 	}
 
+	public static NumberFormat getFmt() {
+		return fmt;
+	}
+
+	public static void setFmt(NumberFormat fmt) {
+		Product.fmt = fmt;
+	}
+
+	public static int getCount() {
+		return count;
+	}
+
+	public static void setCount(int count) {
+		Product.count = count;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -106,6 +125,6 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Id do Produto: |" + id + "Nome do Produto: |" + name + "Quantidade: |" + quantity + "Preço" + price;
+		return "ID: " + id + " | Produto: " + name + " | Preço: " + Product.doubletoSToString(price);
 	}
 }

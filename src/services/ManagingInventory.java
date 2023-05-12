@@ -17,7 +17,7 @@ public class ManagingInventory implements interfaces.StockService {
 	}
 
 	@Override
-	public List<Product> showAvailableProducts() {
+	public List<Product> showAvailableProduct() {
 		return null;
 	}
 

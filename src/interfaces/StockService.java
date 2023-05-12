@@ -9,7 +9,7 @@ public interface StockService {
 
 	void removeProductInStock(Product Produc);
 
-	public List<Product> showAvailableProducts();
+	public List<Product> showAvailableProduct();
 
 	public void upadteStock();
 
