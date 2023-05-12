@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.Product;
@@ -148,8 +149,34 @@ public class ProductMySQL implements ProductRepository {
 	}
 	@Override
 	public List<Product> findAll() {
-	
-		return null;
-	}
+	    PreparedStatement st = null;
+	    ResultSet rs = null;
+	    List<Product> productList = new ArrayList<>();
 
+	    try {
+	        conn = DB.getConnection();
+	        st = conn.prepareStatement("SELECT id, nome, quantidade, preco FROM produto");
+	                    
+	        rs = st.executeQuery();
+
+			while (rs.next()) {
+				Integer idProduct = rs.getInt("id");
+				String nameProduct = rs.getString("nome");
+				Integer quantityProduct = rs.getInt("quantidade");
+				Double priceProduct = rs.getDouble("preco");
+				
+				Product product = new Product(idProduct, nameProduct, quantityProduct, priceProduct);
+				productList.add(product);
+			}
+			
+			return productList;
+			
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+
+		}
+	}
 }

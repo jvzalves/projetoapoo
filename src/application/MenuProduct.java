@@ -1,5 +1,6 @@
 package application;
 
+import java.util.List;
 import java.util.Scanner;
 
 import entities.Product;
@@ -29,14 +30,22 @@ public class MenuProduct {
 	    productMysql.update(productToUpdate);
 	    System.out.println("Produto atualizado: " + productToUpdate);*/
 	    
-	    System.out.println("------ Testando o deleteById ------");
+	    /*System.out.println("------ Testando o deleteById ------");
 	    System.out.println("Entre com o id do pedido a ser deletado:");
 	    int id = sc.nextInt();
 	    productMysql.deleteById(id);
 	    System.out.println("Produto deletado com sucesso");
-	    sc.close();
+	    sc.close();*/
 	    
-	}
-	}
+		System.out.println("------ Testando o findAll ------");
+		List<Product> list = productMysql.findAll();
 
+		for (Product product1 : list) {
+			System.out.println(product1);
+			
+			sc.close();
 
+		}
+
+	}
+}
