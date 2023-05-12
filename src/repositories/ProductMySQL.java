@@ -128,10 +128,24 @@ public class ProductMySQL implements ProductRepository {
 	
 	@Override
 	public void deleteById(Integer id) {
-		
-		
+		PreparedStatement st = null;
+		try {
+			conn = DB.getConnection();
+			st = conn.prepareStatement("delete from produto where id = ?");
+
+			st.setInt(1, id);
+
+			st.executeUpdate();
+		}
+
+		catch (SQLException e) {
+
+			System.out.println("Erro ao deletar produto: " + e.getMessage());
+
+		} finally {
+			DB.closeStatement(st);
+		}
 	}
-	
 	@Override
 	public List<Product> findAll() {
 	

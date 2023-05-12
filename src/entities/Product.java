@@ -35,7 +35,6 @@ public class Product {
 		return fmt;
 	}
 
-
 	public static int getCount() {
 		return count;
 	}
