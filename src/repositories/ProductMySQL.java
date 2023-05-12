@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import entities.Product;
@@ -37,7 +38,7 @@ public class ProductMySQL implements ProductRepository {
 				String nameProduct = rs.getString("nome");
 				Integer quantityProduct = rs.getInt("quantidade");
 				Double priceProduct = rs.getDouble("preco");
-				Product product = new Product(idProduct, nameProduct, quantityProduct, priceProduct, null, null, null);
+				Product product = new Product(idProduct, nameProduct, priceProduct, quantityProduct);
 				return product;
 			}
 
@@ -55,10 +56,44 @@ public class ProductMySQL implements ProductRepository {
 
 	@Override
 	public void insert(Product product) {
-	
-		
+	    PreparedStatement st = null;
+	    try {
+	        conn = DB.getConnection();
+	        st = conn.prepareStatement("INSERT INTO produto" 
+	                                    + "(id, nome, quantidade, preco, cliente_id) "
+	                                    + "VALUES (?, ?, ?, ?, ?)",
+	                                    Statement.RETURN_GENERATED_KEYS);
+	        st.setInt(1, product.getId()); 
+	        st.setString(2, product.getName()); 
+	        st.setDouble(3, product.getPrice()); 
+	        st.setInt(4, product.getQuantity());
+	        
+	        Integer clienteId = product.getClientId();
+	        if (clienteId != null) {
+	            st.setInt(5, clienteId);
+	        } else {
+	            st.setNull(5, java.sql.Types.INTEGER);
+	        }
+	        
+	        int rowsAffected = st.executeUpdate();
+	      
+	        if (rowsAffected > 0) {
+	            ResultSet rs = st.getGeneratedKeys();
+	            if (rs.next()) {
+	                int id = rs.getInt(1);
+	                product.setCount(id);
+	            }
+	        }
+	        
+	        System.out.println("Produto inserido com sucesso!");
+	        
+	    } catch (SQLException e) {
+	        System.out.println("Erro ao inserir produto: " + e.getMessage());
+	    } finally {
+	        DB.closeStatement(st);
+	    
+	    }
 	}
-
 	@Override
 	public void update(Product product) {
 	
