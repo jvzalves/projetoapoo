@@ -38,7 +38,7 @@ public class ProductMySQL implements ProductRepository {
 				String nameProduct = rs.getString("nome");
 				Integer quantityProduct = rs.getInt("quantidade");
 				Double priceProduct = rs.getDouble("preco");
-				Product product = new Product(idProduct, nameProduct, priceProduct, quantityProduct);
+				Product product = new Product(idProduct, nameProduct, quantityProduct, priceProduct);
 				return product;
 			}
 
@@ -49,6 +49,7 @@ public class ProductMySQL implements ProductRepository {
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
+			DB.getConnection();
 			
 		}
 	}	
@@ -96,10 +97,35 @@ public class ProductMySQL implements ProductRepository {
 	}
 	@Override
 	public void update(Product product) {
-	
-		
+	    PreparedStatement st = null;
+	    try {
+	        conn = DB.getConnection();
+	        st = conn.prepareStatement(
+	            "UPDATE produto "
+	            + "SET nome = ?, quantidade = ?, preco = ? "
+	            + "WHERE id = ?");
+	        
+	        st.setString(1, product.getName());
+	        st.setInt(2, product.getQuantity());
+	        st.setDouble(3, product.getPrice());
+	        st.setInt(4, product.getId());
+	        
+	        int rowsAffected = st.executeUpdate();
+	        
+	        if (rowsAffected > 0) {
+	            System.out.println("Produto atualizado com sucesso!");
+	        } else {
+	            System.out.println("Nenhum produto foi atualizado.");
+	        }
+	        
+	    } catch (SQLException e) {
+	        System.out.println("Erro ao atualizar produto: " + e.getMessage());
+	    } finally {
+	        DB.closeStatement(st);
+	        DB.closeConnection();
+	    }
 	}
-
+	
 	@Override
 	public void deleteById(Integer id) {
 		

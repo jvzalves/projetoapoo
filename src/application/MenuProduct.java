@@ -16,10 +16,16 @@ public class MenuProduct {
 			System.out.println("Produto não encontrado!");
 		}
 	    
-	    System.out.println("------Testando o insert------");
+	    /*System.out.println("------Testando o insert------");
 	    Product product2 = new Product(8, "Tênis Nike", 400.0, 5);
-	    product2.setClientId(1); 
-	    productMysql.insert(product2);
+	    product2.setClientId(1); */
+	    
+	    
+	    System.out.println("------ Testando o update ------");
+	    Product productToUpdate = new Product(8, "Novo Tênis Nike", 10, 500.0);
+	    productMysql.update(productToUpdate);
+	    System.out.println("Produto atualizado: " + productToUpdate);
+	}
 	}
 
-}
+

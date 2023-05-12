@@ -20,7 +20,7 @@ public class Product {
 
 	}
 
-	public Product(int id, String name, Double price, Integer quantity) {
+	public Product(int id, String name, Integer quantity, Double price) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
