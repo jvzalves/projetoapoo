@@ -20,10 +20,10 @@ public class MenuStock {
 	        System.out.println("Estoque não encontrado.");
 	    }
 	    sc.close();
-	    System.out.println("------Testando o insert------");
-	    Stock stock = new Stock(10, 8, null, null, null);
-	    stock.setProductId(4);
-	    stockMySQL.insert(stock);
+	    System.out.println("------Testando o update------");
+	    Stock stock = new Stock(9, 7, 3, null, null);
+	    stockMySQL.update(stock);
+	   
 	}
 
 }

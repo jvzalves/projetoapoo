@@ -86,10 +86,24 @@ public class StockMySQL implements StockRepository {
 	        DB.closeStatement(st);
 	    }
 	}
+	
 	@Override
 	public void update(Stock stock) {
-	
-		
+	    PreparedStatement st = null;
+	    try {
+	        conn = DB.getConnection();
+	        st = conn.prepareStatement("UPDATE estoque SET quantidade = ?, produto_id = ? WHERE id = ?");
+	        st.setInt(1, stock.getQuantity());
+	        st.setInt(2, stock.getProductId());
+	        st.setInt(3, stock.getId());
+	        st.executeUpdate();
+	        
+	        System.out.println("Estoque atualizado com sucesso!");
+	    } catch (SQLException e) {
+	        System.out.println("Erro ao atualizar estoque: " + e.getMessage());
+	    } finally {
+	        DB.closeStatement(st);
+	    }
 	}
 
 	@Override
