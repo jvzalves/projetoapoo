@@ -1,19 +1,17 @@
 package entities;
-
 import java.text.NumberFormat;
-import java.util.Objects;
 
 public class Product {
-	private static NumberFormat fmt = NumberFormat.getCurrencyInstance();
-	private static int count = 0;
+	
 	private Integer id;
 	private String name;
 	private Integer quantity;
 	private Double price;
 	private Integer clientId;
-
+	private static int count = 0;
+	private static NumberFormat fmt = NumberFormat.getCurrencyInstance();
 	private Customer customer;
-	private Stock stock;
+
 	
 	public Product() {
 		this.id = 0;
@@ -27,20 +25,16 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public static String doubletoSToString(Double value) {
+	public static String doubleToString(Double value) {
 		return fmt.format(value);
 	}
 
-	public static NumberFormat getFmt() {
-		return fmt;
+	public Integer getId() {
+		return id;
 	}
 
-	public static int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		Product.count = count;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -51,14 +45,6 @@ public class Product {
 		this.name = name;
 	}
 
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -67,14 +53,14 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public int getId() {
-		return id;
+	public Double getPrice() {
+		return price;
 	}
 
-	public static void setFmt(NumberFormat fmt) {
-		Product.fmt = fmt;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
-	
+
 	public Integer getClientId() {
 		return clientId;
 	}
@@ -83,29 +69,28 @@ public class Product {
 		this.clientId = clientId;
 	}
 
+	public static int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		Product.count = count;
+	}
+
+	public static NumberFormat getFmt() {
+		return fmt;
+	}
+
+	public static void setFmt(NumberFormat fmt) {
+		Product.fmt = fmt;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
-	}
-
-	public Stock getStock() {
-		return stock;
-	}
-
-	public void setStock(Stock stock) {
-		this.stock = stock;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
 	}
 
 	@Override
@@ -121,7 +106,7 @@ public class Product {
 	}
 
 	public String toString() {
-		return "ID: " + id + " | Produto: " + name + " | Preço: " + Product.doubletoSToString(price);
+		return "ID: " + id + " | Produto: " + name + " | Preço: " + Product.doubleToString(price);
 	}
 
 }

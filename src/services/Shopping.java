@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
+import application.MenuProduct;
 import entities.Product;
 import interfaces.ProductRepository;
 import util.DB;
@@ -26,7 +26,7 @@ public class Shopping implements interfaces.ProductService {
 	}
 
 	@Override
-	public List<Product> showAvailableProducts() {
+	public List<Product> showAvailableProduct() {
 		return productRepository.findAll();
 	}
 
@@ -57,8 +57,7 @@ public class Shopping implements interfaces.ProductService {
 			System.out.print("Digite o id do produto que deseja comprar:");
 			Integer id = scanner.nextInt();
 
-			PreparedStatement preparedStatement = st = conn.prepareStatement(
-					"SELECT id, nome, preco, quantidade FROM produto WHERE id = ? AND quantidade > 0");
+			PreparedStatement preparedStatement = st = conn.prepareStatement("SELECT id, nome, preco, quantidade FROM produto WHERE id = ? AND quantidade > 0");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
@@ -67,13 +66,12 @@ public class Shopping implements interfaces.ProductService {
 				String nameProduct = rs.getString("nome");
 				Integer quantityProduct = rs.getInt("quantidade");
 				Double priceProduct = rs.getDouble("preco");
-
+				
 				products.add(new Product(idProduct, nameProduct, quantityProduct, priceProduct));
 				Product product1 = products.get(products.size() - 1);
 				int quantity = cart.getOrDefault(product1, 0);
 				cart.put(product1, quantity + 1);
-
-				cart.put(product, quantity + 1);
+				
 				System.out.println("Produto(s) adicionado(s) ao Carrinho! ");
 				System.out.println();
 				System.out.println("Produto(s) no carrinho:");
@@ -81,7 +79,7 @@ public class Shopping implements interfaces.ProductService {
 
 				for (Product p : products) {
 					if (p != null) {
-						System.out.println("Id: " + p.getId() + "| " + "Produto: " + p.getName() + "| " + "Preço: " +  Product.doubletoSToString(p.getPrice()));
+						System.out.println("Id: " + p.getId() + "| " + "Produto: " + p.getName() + "| " + "Preço: " +  Product.doubleToString(p.getPrice()));
 								
 					}
 				}
@@ -136,7 +134,7 @@ public class Shopping implements interfaces.ProductService {
 					}
 					System.out.println();
 					checkOut();
-					Menu.menu();
+					MenuProduct.menu();
 				}
 				
 				    st = conn.prepareStatement("UPDATE produto SET quantidade = quantidade - 1 WHERE id = ?");
@@ -148,11 +146,11 @@ public class Shopping implements interfaces.ProductService {
 				System.out.println("Produto comprado com sucesso.");
 				System.out.println();
 				System.out.println("Produto escolhido: " + "Id: " + idProduct + ", " + nameProduct + ", " + "Preço: "
-						+ Product.doubletoSToString(priceProduct));
+						+ Product.doubleToString(priceProduct));
 				cart.clear(); // Limpa o carrinho após o checkout ser concluído
 				products.clear();// Limpa o mapa de produtos após o checkout ser concluído
 				System.out.println("Volte sempre!");
-				Menu.menu();
+				MenuProduct.menu();
 
 			} else {
 				throw new DbException("Produto não encontrado ou sem quantidade disponível.");
@@ -195,23 +193,35 @@ public class Shopping implements interfaces.ProductService {
 	        }
 
 	        System.out.println("Produto(s): ");
+	        Map<Integer, Integer> productQuantities = new HashMap<>();
 	        for (Map.Entry<Product, Integer> entry : cart.entrySet()) {
 	            Product product = entry.getKey();
-	            if (product != null) {
-	                int quantity = entry.getValue();
-	                System.out.println("Id: " + product.getId() + "| Nome: " + product.getName() + "| Preço: " + Product.doubletoSToString(product.getPrice()) + "| Quantidade: " + quantity);
-	                System.out.println("-----------------------------------------------------------");
+	            int quantity = entry.getValue();
+	            int productId = product.getId();
+	            int totalQuantity = productQuantities.getOrDefault(productId, 0) + quantity;
+	            productQuantities.put(productId, totalQuantity);
+	        }
+
+	        for (Map.Entry<Integer, Integer> entry : productQuantities.entrySet()) {
+	            int productId = entry.getKey();
+	            int totalQuantity = entry.getValue();
+	            for (Product product : products) {
+	                if (product.getId() == productId) {
+	                    System.out.println("Id: " + product.getId() + "| Nome: " + product.getName() + "| Preço: " + Product.doubleToString(product.getPrice()) + "| Quantidade: " + totalQuantity);
+	                    System.out.println("-----------------------------------------------------------");
+	                    break;
+	                }
 	            }
 	        }
 
-	        System.out.println("Valor total da sua compra: " + Product.doubletoSToString(totalValue) + "  \nMétodo de Pagamento: " + paymentMethodString);
+	        System.out.println("Valor total da sua compra: " + Product.doubleToString(totalValue) + "  \nMétodo de Pagamento: " + paymentMethodString);
 
-			// Limpar carrinho e produtos
-			cart.clear();
-			products.clear();
+	        // Limpar carrinho e produtos
+	        cart.clear();
+	        products.clear();
 
-			System.out.println("\nAgradecemos pela preferência!\n");
-			Menu.menu();
+	        System.out.println("\nAgradecemos pela preferência!\n");
+	        MenuProduct.menu();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {
