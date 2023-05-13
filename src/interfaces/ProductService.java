@@ -1,8 +1,11 @@
 package interfaces;
 
+import java.util.List;
+
 import entities.Product;
 
 public interface ProductService {
-	void buyProducts(Product product);
-
+	List<Product>showAvailableProducts();
+	void buyProduct(Product product);
+	void checkOut();
 }
