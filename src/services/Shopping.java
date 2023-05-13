@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
 import entities.Product;
 import interfaces.ProductRepository;
 import util.DB;
@@ -75,7 +76,7 @@ public class Shopping implements interfaces.ProductService {
 				cart.put(product, quantity + 1);
 				System.out.println("Produto(s) adicionado(s) ao Carrinho! ");
 				System.out.println();
-				System.out.println("Produtos no carrinho:");
+				System.out.println("Produto(s) no carrinho:");
 				System.out.println();
 
 				for (Product p : products) {
@@ -198,7 +199,7 @@ public class Shopping implements interfaces.ProductService {
 	            Product product = entry.getKey();
 	            if (product != null) {
 	                int quantity = entry.getValue();
-	                System.out.println("Id:" + product.getId() + "| Nome: " + product.getName() + "| Preço: " + Product.doubletoSToString(product.getPrice()) + "| Quantidade: " + quantity);
+	                System.out.println("Id: " + product.getId() + "| Nome: " + product.getName() + "| Preço: " + Product.doubletoSToString(product.getPrice()) + "| Quantidade: " + quantity);
 	                System.out.println("-----------------------------------------------------------");
 	            }
 	        }
