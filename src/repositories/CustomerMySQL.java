@@ -1,5 +1,4 @@
 package repositories;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import application.Program;
 import entities.Customer;
 import interfaces.CustomerRepository;
 import util.DB;
@@ -58,33 +57,32 @@ public class CustomerMySQL implements CustomerRepository {
 	    try {
 	        conn = DB.getConnection();
 	        st = conn.prepareStatement("INSERT INTO cliente" +
-	                                   "(id, nome, email)" +
-	                                   "VALUES (?, ?, ?)",
+	                                   "(nome, email)" +
+	                                   "VALUES (?, ?)",
 	                                   Statement.RETURN_GENERATED_KEYS);
 
-	        st.setInt(1, customer.getId());
-	        st.setString(2, customer.getName());
-	        st.setString(3, customer.getEmail());
+	        st.setString(1, customer.getName());
+	        st.setString(2, customer.getEmail());
 
 	        int rowsAffected = st.executeUpdate();
 
-	        if (rowsAffected > 0) {
-	            rs = st.getGeneratedKeys();
-	            if (rs.next()) {
-	                int id = rs.getInt(1);
-	                customer.setId(id);
-	            }
-	        }
-	        System.out.println("Cliente inserido com sucesso!");
-
-	    } catch (SQLException e) {
-	        System.out.println("Erro ao inserir cliente: " + e.getMessage());
-	    } finally {
-	        DB.closeResultSet(rs);
-	        DB.closeStatement(st);
-	    }
+			if (rowsAffected > 0) {
+				rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					customer.setId(id);
+				}
+			}
+			System.out.println("Cadastro efetuado com sucesso! ");
+			Program.menu();
+		} catch (SQLException e) {
+			System.out.println("Erro ao inserir cliente: " + e.getMessage());
+		} finally {
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
+			
+		}
 	}
-
 	@Override
 	public void update(Customer customer) {
 		PreparedStatement st = null;

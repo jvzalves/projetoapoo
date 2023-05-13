@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import application.MenuProduct;
+
+import application.Program;
 import entities.Product;
 import interfaces.ProductRepository;
 import util.DB;
@@ -72,7 +73,7 @@ public class Shopping implements interfaces.ProductService {
 				int quantity = cart.getOrDefault(product1, 0);
 				cart.put(product1, quantity + 1);
 				
-				System.out.println("Produto(s) adicionado(s) ao Carrinho! ");
+				System.out.println(product1.getName() + " adicionado ao Carrinho! ");
 				System.out.println();
 				System.out.println("Produto(s) no carrinho:");
 				System.out.println();
@@ -134,7 +135,7 @@ public class Shopping implements interfaces.ProductService {
 					}
 					System.out.println();
 					checkOut();
-					MenuProduct.menu();
+					Program.menu();
 				}
 				
 				    st = conn.prepareStatement("UPDATE produto SET quantidade = quantidade - 1 WHERE id = ?");
@@ -150,7 +151,7 @@ public class Shopping implements interfaces.ProductService {
 				cart.clear(); // Limpa o carrinho após o checkout ser concluído
 				products.clear();// Limpa o mapa de produtos após o checkout ser concluído
 				System.out.println("Volte sempre!");
-				MenuProduct.menu();
+				Program.menu();
 
 			} else {
 				throw new DbException("Produto não encontrado ou sem quantidade disponível.");
@@ -221,7 +222,7 @@ public class Shopping implements interfaces.ProductService {
 	        products.clear();
 
 	        System.out.println("\nAgradecemos pela preferência!\n");
-	        MenuProduct.menu();
+	        Program.menu();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {
