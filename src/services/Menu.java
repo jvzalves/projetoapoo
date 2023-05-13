@@ -16,7 +16,7 @@ public class Menu {
 	public static List<Product> menu() {
 
 			System.out.println("--------------------------------------------");
-			System.out.println("-------Bem vindo(a) ao Mercado Free---------");
+			System.out.println("-------Bem vindo(a) a Loja------------------");
 			System.out.println("--------------------------------------------");
 			System.out.println("-------Selecione uma operação:--------------");
 			System.out.println("--------------------------------------------");
