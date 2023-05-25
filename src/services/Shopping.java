@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 import application.Program;
 import entities.Product;
 import interfaces.ProductRepository;
@@ -137,21 +136,6 @@ public class Shopping implements interfaces.ProductService {
 					checkOut();
 					Program.menu();
 				}
-				
-				    st = conn.prepareStatement("UPDATE produto SET quantidade = quantidade - 1 WHERE id = ?");
-				    st.setInt(1, id);
-				    int rowsAffected = st.executeUpdate();
-				    if (rowsAffected == 0) {
-				        throw new DbException("Erro na compra do produto. Nenhum produto foi atualizado.");
-				    }
-				System.out.println("Produto comprado com sucesso.");
-				System.out.println();
-				System.out.println("Produto escolhido: " + "Id: " + idProduct + ", " + nameProduct + ", " + "Preço: "
-						+ Product.doubleToString(priceProduct));
-				cart.clear(); // Limpa o carrinho após o checkout ser concluído
-				products.clear();// Limpa o mapa de produtos após o checkout ser concluído
-				System.out.println("Volte sempre!");
-				Program.menu();
 
 			} else {
 				throw new DbException("Produto não encontrado ou sem quantidade disponível.");
